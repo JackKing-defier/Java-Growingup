@@ -33,7 +33,7 @@ public class Fuck {
 
         scan.close();
 
-        ArrayList<String> result = new ArrayList();
+        ArrayList<String> result = new ArrayList<>();
 
         for (int i = 0; i < num; i++) {
 
