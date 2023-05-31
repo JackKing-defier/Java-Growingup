@@ -15,11 +15,9 @@ public class IPtest {
      */
     private static String getAddrIp(String ip, String subnetMask) {
         StringBuilder addrIp = new StringBuilder();
-        String binaryIp = ip;
-        String binarySubnetMask = subnetMask;
         for (int i = 0; i < 32; i++) {
-            byte ipByte = Byte.parseByte(String.valueOf(binaryIp.charAt(i)));
-            byte subnetMaskByte = Byte.parseByte(String.valueOf(binarySubnetMask.charAt(i)));
+            byte ipByte = Byte.parseByte(String.valueOf(ip.charAt(i)));
+            byte subnetMaskByte = Byte.parseByte(String.valueOf(subnetMask.charAt(i)));
             addrIp.append(ipByte & subnetMaskByte);
         }
         return addrIp.toString();
