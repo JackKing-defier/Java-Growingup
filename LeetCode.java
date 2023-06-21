@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class LeetCode {
@@ -33,10 +34,54 @@ public class LeetCode {
         return new String(result);
     }
 
-    public static void main(String args[]) {
-        LeetCode excuate = new LeetCode();
-        String s = "leetcode";
+    public int findKthLargest(int[] nums, int k) {
 
-        System.out.println(excuate.reverseVowels(s));
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+        if(nums.length < 1){
+            return 0;
+        }
+        for(int e : nums){
+            pq.add(e);
+            if(pq.size() > k){
+                pq.poll();
+            }
+        }
+        return pq.peek();
+    }
+
+    /**
+     * 70. 爬楼梯
+     * @param n
+     * @return
+     */
+    public int climbStairs(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+    }
+
+    public int climbStairs2(int n) {
+        if (n <= 2) {
+            return n;
+        }
+        int pre2 = 1;
+        int pre1 = 2;
+        for (int i = 2; i < n; i++) {
+            int cur = pre1 + pre2;
+            pre2 = pre1;
+            pre1 = cur;
+        }
+        return pre1;//因为此处的 pre1 已经是 cur
+    }
+
+    public static void main(String[] args) {
+        LeetCode exculpate = new LeetCode();
+        String s = "keycode";
+
+        System.out.println(exculpate.climbStairs2(4));
     }
 }
