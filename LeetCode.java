@@ -37,12 +37,12 @@ public class LeetCode {
     public int findKthLargest(int[] nums, int k) {
 
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
-        if(nums.length < 1){
+        if (nums.length < 1) {
             return 0;
         }
-        for(int e : nums){
+        for (int e : nums) {
             pq.add(e);
-            if(pq.size() > k){
+            if (pq.size() > k) {
                 pq.poll();
             }
         }
@@ -51,8 +51,6 @@ public class LeetCode {
 
     /**
      * 70. 爬楼梯
-     * @param n
-     * @return
      */
     public int climbStairs(int n) {
         int[] dp = new int[n + 1];
@@ -78,10 +76,60 @@ public class LeetCode {
         return pre1;//因为此处的 pre1 已经是 cur
     }
 
+    /**
+     * 213. 打家劫舍 II
+     */
+    public int rob(int[] nums) {
+        int pre2 = 0, pre1 = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            int cur = Math.max(pre2 + nums[i], pre1);
+            pre2 = pre1;
+            pre1 = cur;
+        }
+        return pre1;
+    }
+
+    /**
+     * rob2
+     */
+    public int rob2(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        return Math.max(
+                rob(Arrays.copyOfRange(nums, 0, nums.length - 1))
+                , rob(Arrays.copyOfRange(nums, 1, nums.length)));
+    }
+
+    /**
+     * 64. 最小路径和
+     */
+    public int minPathSum(int[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (i == 0 && j == 0) {
+                    continue;
+                } else if (i == 0) {
+                    grid[0][j] = grid[0][j - 1] + grid[0][j];
+                } else if (j == 0) {
+                    grid[i][0] = grid[i - 1][0] + grid[i][0];
+                } else {
+                    grid[i][j] = Math.min(grid[i - 1][j], grid[i][j - 1]) + grid[i][j];
+                }
+            }
+        }
+        return grid[grid.length - 1][grid[0].length - 1];
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String s = "keycode";
+        int[] nums = {1, 2, 3, 4, 5, 6, 7, 21, 3, 4, 1};
 
-        System.out.println(exculpate.climbStairs2(4));
+        System.out.println(exculpate.rob2(nums));
     }
 }
