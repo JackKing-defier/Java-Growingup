@@ -7,8 +7,6 @@ public class LeetCode {
     /**
      * 345. 反转字符串中的元音字母
      *
-     * @param s
-     * @return
      */
     public String reverseVowels(String s) {
         if (s == null) return null;
@@ -123,6 +121,21 @@ public class LeetCode {
             }
         }
         return grid[grid.length - 1][grid[0].length - 1];
+    }
+
+    /**
+     * 62. 不同路径
+     * 使用杨辉三角技巧，看图可知
+     */
+    public int uniquePaths(int m, int n) {
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[j] += dp[j - 1];
+            }
+        }
+        return dp[n - 1];
     }
 
     public static void main(String[] args) {
