@@ -6,7 +6,6 @@ import java.util.Set;
 public class LeetCode {
     /**
      * 345. 反转字符串中的元音字母
-     *
      */
     public String reverseVowels(String s) {
         if (s == null) return null;
@@ -138,11 +137,33 @@ public class LeetCode {
         return dp[n - 1];
     }
 
+    /**
+     * 303. 区域和检索 - 数组不可变
+     */
+    class NumArray {
+
+        private int[] sum;
+
+        public NumArray(int[] nums) {
+            sum = new int[nums.length + 1];
+            for (int i = 0; i < nums.length; i++) {
+                sum[i + 1] = sum[i] + nums[i];
+            }
+        }
+
+        public int sumRange(int left, int right) {
+            return sum[right + 1] - sum[left];
+        }
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String s = "keycode";
         int[] nums = {1, 2, 3, 4, 5, 6, 7, 21, 3, 4, 1};
+        int[] sum = new int[5];
+        for (int index : sum) {
+            System.out.println(sum[index]);
 
-        System.out.println(exculpate.rob2(nums));
+        }
     }
 }
