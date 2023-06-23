@@ -156,13 +156,48 @@ public class LeetCode {
         }
     }
 
+    //53. 最大子数组和
+    public int maxSubArray(int[] nums) {
+        int[] dp = new int[nums.length];
+        dp[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            dp[i] = Math.max(nums[i], dp[i - 1] + nums[i]);
+        }
+
+        int res = dp[0];
+        for (int j = 0; j < nums.length; j++) {
+            res = Math.max(res, dp[j]);
+        }
+        return res;
+
+    }
+
+    //646. 最长数对链
+    public int findLongestChain(int[][] pairs) {
+        Arrays.sort(pairs, (a, b) -> a[0] - b[0]);
+        int[] dp = new int[pairs.length];
+        Arrays.fill(dp, 1);
+        for (int i = 0; i < pairs.length; i++) {
+            for (int j = 0; j < i; j++) {
+                if (pairs[j][1] < pairs[i][0]) dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+        }
+        int ret = dp[0];
+        for (int k = 0; k < dp.length; k++) {
+            ret = Math.max(ret, dp[k]);
+        }
+        return ret;
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String s = "keycode";
         int[] nums = {1, 2, 3, 4, 5, 6, 7, 21, 3, 4, 1};
         int[] sum = new int[5];
+        sum[1] = 1;
+        sum[2] = 2;
         for (int index : sum) {
-            System.out.println(sum[index]);
+            System.out.println(index);
 
         }
     }
