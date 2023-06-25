@@ -225,10 +225,20 @@ public class LeetCode {
         return dp[n][m];
     }
 
+    //剑指 Offer 63. 股票的最大利润
+    public int maxProfit(int[] prices) {
+        int cost = Integer.MAX_VALUE, profit = 0;
+        for (int price : prices) {
+            cost = Math.min(cost, price);
+            profit = Math.max(profit, price - cost);
+        }
+        return profit;
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "abcde", text2 = "ace";
-        int[] nums = {1, 2, 3, 4, 5, 6, 7, 21, 3, 4, 1};
-        System.out.println(text1.charAt(1));
+        int[] nums = {7, 1, 5, 3, 6, 4};
+        System.out.println(exculpate.maxProfit(nums));
     }
 }
