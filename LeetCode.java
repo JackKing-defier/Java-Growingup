@@ -206,16 +206,29 @@ public class LeetCode {
         return Math.max(up, down);
     }
 
+    // 1143. 最长公共子序列
+    // String的index是从0开始
+    public int longestCommonSubsequence(String text1, String text2) {
+        int n = text1.length();
+        int m = text2.length();
+        int[][] dp = new int[n + 1][m + 1];
+        dp[0][0] = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                }
+            }
+        }
+        return dp[n][m];
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
-        String s = "keycode";
+        String text1 = "abcde", text2 = "ace";
         int[] nums = {1, 2, 3, 4, 5, 6, 7, 21, 3, 4, 1};
-        int[] sum = new int[5];
-        sum[1] = 1;
-        sum[2] = 2;
-        for (int index : sum) {
-            System.out.println(index);
-
-        }
+        System.out.println(text1.charAt(1));
     }
 }
