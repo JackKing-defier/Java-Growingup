@@ -187,6 +187,25 @@ public class LeetCode {
         return ret;
     }
 
+    // 376. 摆动序列
+    // 参考讲解：https://leetcode.cn/problems/wiggle-subsequence/solution/bai-dong-xu-lie-by-leetcode-solution-yh2m/
+    public int wiggleMaxLength(int[] nums) {
+        if (nums.length < 2) {
+            return nums.length;
+        }
+        int up = 1;
+        int down = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > nums[i - 1]) {
+                up = down + 1;
+            }
+            if (nums[i] < nums[i - 1]) {
+                down = up + 1;
+            }
+        }
+        return Math.max(up, down);
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String s = "keycode";
