@@ -252,10 +252,78 @@ public class LeetCode {
         return m + n - dp[n][m] * 2;
     }
 
+    //太难了还不会做：
+    public int minDistance2(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+        int[][] dp = new int[n + 1][m + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return n - dp[n][m];
+    }
+
+
+    // 树定义
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    //110. 平衡二叉树
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        // 平衡二叉树除了当前跟节点下的子树高度不超过1，同时子树也需要是平衡二叉树，所以需要递归
+        return (Math.abs(maxDepth(root.left) - maxDepth(root.right)) <= 1) && isBalanced(root.left) && isBalanced(root.right);
+
+    }
+
+    private int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    //572. 另一棵树的子树
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null || subRoot == null) return false;
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot) || isSubtreeStartRoot(root, subRoot);
+    }
+
+    private boolean isSubtreeStartRoot(TreeNode root, TreeNode subRoot) {
+        if (root == null && subRoot == null) return true;
+        if (root == null || subRoot == null) return false;
+        if (root.val != subRoot.val) return false;
+        return isSubtreeStartRoot(root.left, subRoot.left) && isSubtreeStartRoot(root.right, subRoot.right);
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
-        String text1 = "abcde", text2 = "ace";
+        String text1 = "intention", text2 = "execution";
         int[] nums = {7, 1, 5, 3, 6, 4};
-        System.out.println(exculpate.maxProfit(nums));
+        System.out.println(exculpate.minDistance2(text1, text2));
     }
 }
