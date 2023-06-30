@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.PriorityQueue;
-import java.util.Set;
+import java.util.*;
 
 public class LeetCode {
     /**
@@ -333,6 +330,31 @@ public class LeetCode {
         if (root1.val != root2.val) return false;
         return isSymmetric(root1.left, root2.right) && isSymmetric(root1.right, root2.left);
     }
+
+    //  102. 二叉树的层序遍历
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List <List<Integer>> allTree = new ArrayList<List<Integer>>();
+        Queue <TreeNode> queue = new LinkedList<TreeNode>();
+
+        if (root == null) {
+            return allTree;
+        }
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            List <Integer> perLevel = new ArrayList<Integer>();
+            int n = queue.size();
+            for (int i = 0; i < n; i++) {
+                TreeNode node = queue.poll();
+                perLevel.add(node.val);
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
+            }
+            allTree.add(perLevel);
+        }
+        return allTree;
+    }
+
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
