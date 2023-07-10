@@ -372,6 +372,23 @@ public class LeetCode {
         return true;
     }
 
+    // 205. 同构字符串(需要正反映射)
+    public boolean isIsomorphic(String s, String t) {
+        Map<Character, Character> solutionMap = new HashMap<Character, Character>();
+        for (int i = 0; i < s.length(); i++) {
+            if (solutionMap.containsKey(s.charAt(i))) {
+                if (solutionMap.get(s.charAt(i)) == t.charAt(i)) {
+                    continue;
+                } else {
+                    return false;
+                }
+            } else {
+                solutionMap.put(s.charAt(i), t.charAt(i));
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "intention", text2 = "execution";
