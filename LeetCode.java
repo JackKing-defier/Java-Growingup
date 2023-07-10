@@ -333,8 +333,8 @@ public class LeetCode {
 
     //  102. 二叉树的层序遍历
     public List<List<Integer>> levelOrder(TreeNode root) {
-        List <List<Integer>> allTree = new ArrayList<List<Integer>>();
-        Queue <TreeNode> queue = new LinkedList<TreeNode>();
+        List<List<Integer>> allTree = new ArrayList<List<Integer>>();
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
 
         if (root == null) {
             return allTree;
@@ -342,7 +342,7 @@ public class LeetCode {
         queue.offer(root);
 
         while (!queue.isEmpty()) {
-            List <Integer> perLevel = new ArrayList<Integer>();
+            List<Integer> perLevel = new ArrayList<Integer>();
             int n = queue.size();
             for (int i = 0; i < n; i++) {
                 TreeNode node = queue.poll();
@@ -355,11 +355,34 @@ public class LeetCode {
         return allTree;
     }
 
+    // 242. 有效的字母异位词
+    public boolean isAnagram(String s, String t) {
+        int[] cnt = new int[26];
+        for (char c : s.toCharArray()) {
+            cnt[c - 'a']++;
+        }
+        for (char c : t.toCharArray()) {
+            cnt[c - 'a']--;
+        }
+        for (int i : cnt) {
+            if (i != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "intention", text2 = "execution";
         int[] nums = {7, 1, 5, 3, 6, 4};
-        System.out.println(exculpate.minDistance2(text1, text2));
+        String Str = new String("This");
+        String s = "rat";
+        String t = "car";
+
+        System.out.print("返回值 :");
+        System.out.println(exculpate.isAnagram(s, t));
+
+        //System.out.println(exculpate.minDistance2(text1, text2));
     }
 }
