@@ -223,6 +223,7 @@ public class LeetCode {
     }
 
     //剑指 Offer 63. 股票的最大利润
+    // 121. 买卖股票的最佳时机
     public int maxProfit(int[] prices) {
         int cost = Integer.MAX_VALUE, profit = 0;
         for (int price : prices) {
@@ -231,6 +232,16 @@ public class LeetCode {
         }
         return profit;
     }
+//
+//    public int maxProfit(int[] prices) {
+//        int minBuy = prices[0];
+//        int profix = 0;
+//        for (int i = 0; i < prices.length; i++) {
+//            minBuy = Math.min(prices[i], minBuy);
+//            profix = Math.max(profix, prices[i] - minBuy);
+//        }
+//        return profix;
+//    }
 
     //583. 两个字符串的删除操作
     public int minDistance(String word1, String word2) {
@@ -388,6 +399,7 @@ public class LeetCode {
         }
         return true;
     }
+
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
