@@ -243,6 +243,17 @@ public class LeetCode {
 //        return profix;
 //    }
 
+    // 122. 买卖股票的最佳时机 II
+    public int maxProfit2(int[] prices) {
+        int profit = 0;
+        for (int i = 0; i < prices.length - 1; i++) {
+            if (prices[i + 1] > prices[i]) {
+                profit += (prices[i + 1] - prices[i]);
+            }
+        }
+        return profit;
+    }
+
     //583. 两个字符串的删除操作
     public int minDistance(String word1, String word2) {
         int n = word1.length();
@@ -400,17 +411,106 @@ public class LeetCode {
         return true;
     }
 
+    // 674. 最长连续递增序列
+    public int findLengthOfLCIS(int[] nums) {
+        if (nums.length < 2) {
+            return nums.length;
+        }
+
+        int maxLength = 1;
+        int perLength = 1;
+        for (int j = 1; j < nums.length; j++) {
+            if (nums[j - 1] < nums[j]) {
+                perLength += 1;
+            } else {
+                perLength = 1;
+            }
+            maxLength = Math.max(perLength, maxLength);
+        }
+
+        return maxLength;
+    }
+
+    // 673. 最长递增子序列的个数
+    public int findNumberOfLIS(int[] nums) {
+        // dp[i]是以nums[i]结尾的递增子序列长度
+        // Map<Integer, Integer> dp[i], 个数。
+        // 寻找最大的dp[i]的映射Integer
+        if (nums.length < 2) {
+            return nums.length;
+        }
+
+        int LISLength = 1;
+        int dp[] = new int[nums.length];
+        Map<Integer, Integer> LISMap = new HashMap<Integer, Integer>();
+        for (int i = 0; i < nums.length; i++) {
+            dp[i] = 1;
+            for (int j = 0; j < i; j++) {
+                if (nums[i] > nums[j]) {
+                    dp[i] = dp[j] + 1;
+                }
+            }
+            LISLength = Math.max(LISLength, dp[i]);
+            LISMap.put(dp[i], LISMap.getOrDefault(dp[i], 0) + 1);
+        }
+        return LISMap.get(LISLength);
+    }
+
+
+    public static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int pivotIndex = partition(arr, low, high);
+            quickSort(arr, low, pivotIndex - 1);
+            quickSort(arr, pivotIndex + 1, high);
+        }
+    }
+
+    // ChatGPT 版本切分函数，不太好理解，一样有效
+    public static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                swap(arr, i, j);
+            }
+        }
+
+        swap(arr, i + 1, high);
+        return i + 1;
+    }
+
+    public static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    public static void printArray(int[] arr) {
+        for (int num : arr) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+    }
+
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "intention", text2 = "execution";
-        int[] nums = {7, 1, 5, 3, 6, 4};
+        int[] nums = {1, 3, 5, 4, 7};
+
         String Str = new String("This");
         String s = "rat";
         String t = "car";
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.isAnagram(s, t));
+        //System.out.println(exculpate.findNumberOfLIS(nums));
+
+        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
+        quickSort(arr, 0, arr.length - 1);
+        System.out.println("Sorted array:");
+        printArray(arr);
 
         //System.out.println(exculpate.minDistance2(text1, text2));
     }
