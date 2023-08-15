@@ -459,10 +459,29 @@ public class LeetCode {
 
     public static void quickSort(int[] arr, int low, int high) {
         if (low < high) {
-            int pivotIndex = partition(arr, low, high);
+            int pivotIndex = partion(arr, low, high);
             quickSort(arr, low, pivotIndex - 1);
             quickSort(arr, pivotIndex + 1, high);
         }
+    }
+
+    //手写切分函数
+    public static int partion(int[] nums, int left, int right) {
+        int key = nums[left];
+        int i = left;
+        int j = right + 1;
+        while (true) {
+            while (nums[++i] < key) {
+                if (i == right) break;
+            }
+            while (nums[--j] > key) {
+                if (left == j) break;
+            }
+            if (i >= j) break;
+            swap(nums, j, i);
+        }
+        swap(nums, left, j);
+        return j;
     }
 
     // ChatGPT 版本切分函数，不太好理解，一样有效
@@ -492,6 +511,20 @@ public class LeetCode {
             System.out.print(num + " ");
         }
         System.out.println();
+    }
+
+    //455. 分发饼干
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int j = 0;
+        //针对每个饼干，适配小朋友，从小到大开始
+        for (int i = 0; i < s.length & j < g.length; i++) {
+            if (s[i] >= g[j]) {
+                j++;
+            }
+        }
+        return j;
     }
 
 
