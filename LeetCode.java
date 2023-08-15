@@ -527,24 +527,42 @@ public class LeetCode {
         return j;
     }
 
+    //665. 非递减数列
+    public boolean checkPossibility(int[] nums) {
+        int len = nums.length;
+        if (len <= 1) return true;
+        int flag = 0;
+        for (int i = 1; i < len && flag < 2; i++) {
+            if (nums[i - 1] <= nums[i]) {
+                continue;
+            }
+            flag++;
+            if (i - 2 >= 0 && nums[i - 2] > nums[i]) {
+                nums[i] = nums[i - 1];
+            } else {
+                nums[i - 1] = nums[i];
+            }
+        }
+        return flag <= 1;
+    }
+
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "intention", text2 = "execution";
-        int[] nums = {1, 3, 5, 4, 7};
+        int[] nums = {3, 4, 2, 3};
 
         String Str = new String("This");
         String s = "rat";
         String t = "car";
 
         System.out.print("返回值 :");
-        //System.out.println(exculpate.findNumberOfLIS(nums));
+        System.out.println(exculpate.checkPossibility(nums));
 
-        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
-        quickSort(arr, 0, arr.length - 1);
-        System.out.println("Sorted array:");
-        printArray(arr);
+//        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
+//        quickSort(arr, 0, arr.length - 1);
+//        System.out.println("Sorted array:");
+//        printArray(arr);
 
-        //System.out.println(exculpate.minDistance2(text1, text2));
     }
 }
