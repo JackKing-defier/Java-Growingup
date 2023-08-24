@@ -546,6 +546,39 @@ public class LeetCode {
         return flag <= 1;
     }
 
+    //374. 猜数字大小
+    public int guessNumber(int n, int target) {
+        int l = 0;
+        int h = n;
+        while (l <= h) {
+            int m = l + (h - l) / 2;
+            if (m < target) {
+                l = m + 1;
+            } else if (m > target) {
+                h = m - 1;
+            } else {
+                return m;
+            }
+        }
+        return -1;
+    }
+
+    //9. 回文数——不使用字符串转换的话，注意边界条件和细节
+    public boolean isPalindrome(int x) {
+        if (x < 0) {
+            return false;
+        }
+        int div = 1;
+        while (x / div >= 10) div *= 10;
+        while (x > 0) {
+            int left = x / div;
+            int right = x % 10;
+            if (left != right) return false;
+            x  = (x % div) / 10;
+            div /= 100;
+        }
+        return true;
+    }
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
@@ -555,9 +588,11 @@ public class LeetCode {
         String Str = new String("This");
         String s = "rat";
         String t = "car";
+        int n = 10;
+        int target = 6;
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.checkPossibility(nums));
+        System.out.println(exculpate.guessNumber(10, 6));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
