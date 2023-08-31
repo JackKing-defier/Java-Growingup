@@ -580,10 +580,27 @@ public class LeetCode {
         return true;
     }
 
+    // 11. 盛最多水的容器
+    public int maxArea(int[] height) {
+        int n = height.length;
+        int ans = 0;
+        int i = 0, j = n - 1;
+        while (i < j) {
+            if (height[i] >= height[j]) {
+                ans = Math.max(ans, (j - i) * Math.min(height[i], height[j]));
+                j--;
+            } else {
+                ans = Math.max(ans, (j - i) * Math.min(height[i], height[j]));
+                i++;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "intention", text2 = "execution";
-        int[] nums = {3, 4, 2, 3};
+        int[] nums = {1,1};
 
         String Str = new String("This");
         String s = "rat";
@@ -592,7 +609,7 @@ public class LeetCode {
         int target = 6;
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.guessNumber(10, 6));
+        System.out.println(exculpate.maxArea(nums));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
