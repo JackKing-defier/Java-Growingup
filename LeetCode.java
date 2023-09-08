@@ -597,6 +597,74 @@ public class LeetCode {
         return ans;
     }
 
+    //
+    /*
+    Input:
+s = "abcxyz123"
+dict = ["abc","123"]
+Output:
+"<b>abc</b>xyz<b>123</b>"
+Input:
+s = "aaabbcc"
+dict = ["aaa","aab","bc"]
+Output:
+"<b>aaabbc</b>c"，
+dict内字符串在s中只有一次，infexOf
+    * */
+
+    public String boldString(String s, ArrayList<String> dict) {
+        StringBuilder ans = new StringBuilder();
+        int n = s.length();
+        int[] flag = new int[n];
+        int start = 0;
+        int end = 0;
+//        List<List<Integer>> pair = new ArrayList<>();
+        //Pair
+        for (int i = 0; i < dict.size(); i++) {
+            start = s.indexOf(dict.get(i));
+            if (start < 0) {
+                continue;
+            }
+            end = start + dict.get(i).length();
+
+            for (int j = start; j < end; j++) {
+                flag[j] = 1;
+            }
+//            List <Integer> temp = new ArrayList<>();
+//            temp.add(start);
+//            temp.add(end);
+        }
+
+        String boldStart = "<b>";
+        String boldEnd = "</b>";
+        Boolean f = false;
+        for (int i = 0; i < n; i++) {
+            if (flag[i] == 1 ) {
+                if (i > 0 && flag[i - 1] == 0) {
+                    ans.append(boldStart);
+                    ans.append(s.charAt(i));
+                } else if (i == 0) {
+                    ans.append(boldStart);
+                    ans.append(s.charAt(i));
+                } else if (flag[i - 1] == 1) {
+                    ans.append(s.charAt(i));
+                }
+            } else {
+                // flag[i] == 0
+                if (i > 0 && flag[i - 1] == 1) {
+                    ans.append(boldEnd);
+                    ans.append(s.charAt(i));
+                } else if (i == 0) {
+                    ans.append(s.charAt(i));
+                } else if (flag[i - 1] == 0) {
+                    ans.append(s.charAt(i));
+                }
+
+            }
+        }
+        return ans.toString();
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "intention", text2 = "execution";
