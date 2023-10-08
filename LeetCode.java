@@ -1,6 +1,26 @@
 import java.util.*;
 
+import static java.lang.foreign.MemorySegment.NULL;
+
 public class LeetCode {
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
+        }
+    }
+
     /**
      * 345. 反转字符串中的元音字母
      */
@@ -574,7 +594,7 @@ public class LeetCode {
             int left = x / div;
             int right = x % 10;
             if (left != right) return false;
-            x  = (x % div) / 10;
+            x = (x % div) / 10;
             div /= 100;
         }
         return true;
@@ -639,7 +659,7 @@ dict内字符串在s中只有一次，infexOf
         String boldEnd = "</b>";
         Boolean f = false;
         for (int i = 0; i < n; i++) {
-            if (flag[i] == 1 ) {
+            if (flag[i] == 1) {
                 if (i > 0 && flag[i - 1] == 0) {
                     ans.append(boldStart);
                     ans.append(s.charAt(i));
@@ -665,19 +685,147 @@ dict内字符串在s中只有一次，infexOf
         return ans.toString();
     }
 
+    //3. 无重复字符的最长子串
+    public int lengthOfLongestSubstring(String s) {
+        //使用set判定是否存在对应字符，然后刷新int ans
+        Set<Character> tempSet = new HashSet<>();
+        int ans = 1;
+        int res = 1;
+        for (int i = 0; i < s.length(); i++) {
+            if (tempSet.contains(s.charAt(i))) {
+                ans = 1;
+                tempSet.removeAll(tempSet);
+
+            }
+            tempSet.add(s.charAt(i));
+            res = Math.max(res, ans);
+            ans++;
+
+        }
+        return res;
+    }
+    /*
+    * def json_diff(dict1, dict2):
+// """
+// Input:
+//   two dictionaries.
+//   The dictionary value(s) can be string, integer, or dictionary.
+//   The dictionary keys is always a string.
+
+// ---
+
+// Output:
+//   list of results containing a tuple of (key, dict1[key], dict2[key]) if dict1[key] != dict2[key] for a given key.
+
+// ---
+
+// Example 1:
+// 	dict1 = {"a": 1, "b": 3}
+// 	dict2 = {"a": 2}
+// 	output = [ ("a", 1, 2), ("b", 3, ) ]
+
+// Example 2:
+// 	dict1 = {"a": 1}
+// 	dict2 = {"a": 1}
+// 	output = []
+
+// ---
+
+// Pesudo-code is acceptable.
+
+// You will be assessed on how you approach the problem, not on how accurate your syntax is.
+
+// For example, the following is acceptable:
+//   if object is dict then
+//     for key and value in dict object
+//       if value is not list or dict then
+//         add to output (key, value, ...)
+//       else
+//         ...
+//   else if object is list then
+//     ...
+//   else
+//     ...
+//   return output
+// """
+
+
+*
+* // 	dict1 = {"a": {"e": 5, "d": 2}, "b": 3}
+// 	dict2 = {"a": {"e": 2, "d": 2}}
+* // 	output = [ ("a.e",5, 2), ("b", 3, ) ]    *
+    * */
+//    public Map<String, List<Object>> compareDict(Map<String, Object> dict1, Map<String, Object> dict2) {
+//        //Map
+//        Map<String, List<Object>> result = new HashMap<>();
+//
+//        for(Map.Entry<String,Object> d1 : dict1.entrySet()) {
+//
+//            if(!dict2.containsKey(d1.getKey())) {
+//                List<Object> tempList = new ArrayList<>();
+//                tempList.add((object)d1.getKey(), null);
+//                result.put(d1.getKey(), tempList);
+//            }
+//
+//            if(!dict2.get(d1.getKey()).equals(d1.getValue())) {
+//                // todo dict
+//
+//                List<Object> tempList = new ArrayList<>();
+//                tempList.add((object)d1.getKey(), dict2.get(d1.getKey()));
+//                result.put(d1.getKey(), tempList);
+//            }
+//        }
+//
+//        for(Map.Entry<String,Object> d2 : dict2.entrySet()) {
+//
+//            if (!dict2.containsKey(d2.getKey())) {
+//                List<Object> tempList = new ArrayList<>();
+//                tempList.add(null, (object) d2.getKey());
+//                result.put(d2.getKey(), tempList);
+//            }
+//        }
+//        //key
+//
+//
+//    }
+
+    //
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode dummyNode = new ListNode(-1);
+        ListNode p = dummyNode;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(lists.length, (a, b)->(a.val - b.val));
+
+        for (ListNode list : lists) {
+            if (list != null) {
+                pq.add(list);
+            }
+        }
+
+        while (!pq.isEmpty()) {
+            ListNode node = pq.poll();
+            p.next = node;
+            p = p.next;
+            if (node.next != null) {
+                pq.add(node.next);
+            }
+        }
+        return dummyNode.next;
+
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "intention", text2 = "execution";
-        int[] nums = {1,1};
+        int[] nums = {1, 1};
 
         String Str = new String("This");
-        String s = "rat";
+        String s = "abcabcbb";
         String t = "car";
         int n = 10;
         int target = 6;
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.maxArea(nums));
+        System.out.println(exculpate.lengthOfLongestSubstring(s));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
