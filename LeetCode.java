@@ -1,6 +1,5 @@
 import java.util.*;
 
-import static java.lang.foreign.MemorySegment.NULL;
 
 public class LeetCode {
 
@@ -25,7 +24,9 @@ public class LeetCode {
      * 345. 反转字符串中的元音字母
      */
     public String reverseVowels(String s) {
-        if (s == null) return null;
+        if (s == null) {
+            return null;
+        }
         final Set<Character> keySet = new HashSet<Character>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
         int i = 0;
         int j = s.length() - 1;
@@ -355,7 +356,9 @@ public class LeetCode {
     private boolean isSubtreeStartRoot(TreeNode root, TreeNode subRoot) {
         if (root == null && subRoot == null) return true;
         if (root == null || subRoot == null) return false;
-        if (root.val != subRoot.val) return false;
+        if (root.val != subRoot.val) {
+            return false;
+        }
         return isSubtreeStartRoot(root.left, subRoot.left) && isSubtreeStartRoot(root.right, subRoot.right);
     }
 
@@ -793,7 +796,7 @@ dict内字符串在s中只有一次，infexOf
     public ListNode mergeKLists(ListNode[] lists) {
         ListNode dummyNode = new ListNode(-1);
         ListNode p = dummyNode;
-        PriorityQueue<ListNode> pq = new PriorityQueue<>(lists.length, (a, b)->(a.val - b.val));
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(lists.length, (a, b) -> (a.val - b.val));
 
         for (ListNode list : lists) {
             if (list != null) {
@@ -813,19 +816,114 @@ dict内字符串在s中只有一次，infexOf
 
     }
 
+    //56. 合并区间
+    public int[][] merge(int[][] intervals) {
+        //思路：一遍扫描将区间置为1，第二遍输出
+        int n = intervals.length;
+        //int m = intervals[0].length;
+        int[][] result = new int[n][2];
+        int[] temp = new int[intervals[n - 1][1] + 1];
+
+        for (int i = 0; i < n; i++) {
+            int begain = intervals[i][0];
+            while (begain <= intervals[i][1]) {
+                temp[begain] = 1;
+                begain++;
+            }
+        }
+        //如何录入输出，需要注意技巧
+        for (int j = 0; j < n + 1; j++) {
+//            if () {
+//
+//            }
+        }
+        return null;
+
+    }
+
+    //560. 和为 K 的子数组
+    public int subarraySum(int[] nums, int k) {
+        // 初步思路双指针滑动窗口
+        int left = 0, right = 0;
+        int n = nums.length;
+        int ans = 0;
+        while (left < n && right < n) {
+            if (left <= right) {
+                right++;
+            }
+            int temp = 0;
+            for (int i = left; i <= right; i++) {
+                temp += nums[i];
+            }
+            if (temp == k) {
+                ans++;
+            } else if (temp < k) {
+                right++;
+            } else {
+                left++;
+            }
+
+        }
+        return ans;
+    }
+
+    //1456. 定长子串中元音的最大数目
+    public int maxVowels(String s, int k) {
+        int ans = 0;
+        for (int i = 0; i < s.length() - k + 1; i++) {
+            int right = i + k;
+            String str = s.substring(i, right);
+            int tempCal = charNumber(str);
+            ans = Math.max(ans, tempCal);
+        }
+        return ans;
+    }
+
+    public int charNumber(String t) {
+        Set tagSet = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
+        int res = 0;
+        for (int i = 0; i < t.length(); i++) {
+            if (tagSet.contains(t.charAt(i))) {
+                res++;
+            }
+        }
+        return res;
+    }
+    //238. 除自身以外数组的乘积
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] L = new int[n];
+        L[0] = 1;
+        for (int i = 1; i < n; i++) {
+            L[i] = L[i - 1] * nums[i - 1];
+        }
+
+        int[] R = new int[n];
+        R[n - 1] = 1;
+        for (int j = n - 2; j >= 0; j--) {
+            R[j] = nums[j + 1] * R[j + 1];
+        }
+
+        int[] ans = new int[n];
+        for (int k = 0; k < n; k++) {
+            ans[k] = L[k] * R[k];
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
-        String text1 = "intention", text2 = "execution";
-        int[] nums = {1, 1};
+        String text1 = "weallloveyou", text2 = "execution";
+        int[] nums = {1, 2, 3, 4};
 
         String Str = new String("This");
         String s = "abcabcbb";
         String t = "car";
         int n = 10;
-        int target = 6;
+        int target = 7;
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.lengthOfLongestSubstring(s));
+        System.out.println(exculpate.productExceptSelf(nums));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
