@@ -889,6 +889,7 @@ dict内字符串在s中只有一次，infexOf
         }
         return res;
     }
+
     //238. 除自身以外数组的乘积
     public int[] productExceptSelf(int[] nums) {
         int n = nums.length;
@@ -911,10 +912,100 @@ dict内字符串在s中只有一次，infexOf
         return ans;
     }
 
+    //443. 压缩字符串——FUCK！
+    public int compress(char[] chars) {
+        int n = chars.length;
+        if (n < 2) {
+            return n;
+        }
+        int checkIndex = 0;
+        int write = 0;
+        for (int i = 1; i < n; i++) {
+            int count = i - checkIndex;
+            if (i == n - 1 || chars[i] != chars[i - 1]) {
+                chars[write] = chars[i - 1];
+                if (count > 1) {
+                    char[] countArray = String.valueOf(count).toCharArray();
+                    for (int j = 0; j < countArray.length; j++) {
+                        chars[write + j] = countArray[j];
+                    }
+                    write += countArray.length;
+                }
+                checkIndex = i;
+                //chars[write] = chars[i]; //
+            }
+        }
+        System.out.println(chars);
+        return ++write;
+    }
+
+    //2215. 找出两数组的不同
+    public List<List<Integer>> findDifference(int[] nums1, int[] nums2) {
+        Set<Integer> set1 = new HashSet<>();
+        Set<Integer> set2 = new HashSet<>();
+        for (int num : nums1) {
+            set1.add(num);
+        }
+        for (int num : nums2) {
+            set2.add(num);
+        }
+        Set<Integer> tempSet = new HashSet<>(set1);
+        set1.removeAll(set2);
+        set2.removeAll(tempSet);
+
+        List<List<Integer>> ans = new ArrayList<>();
+        ans.add(new ArrayList<>(set1));
+        ans.add(new ArrayList<>(set2));
+        return ans;
+    }
+
+    //541. 反转字符串 II
+    public String reverseStr(String s, int k) {
+        int start = -1, left = start + 1, right = start + k;
+        int n = s.length();
+        char[] array = s.toCharArray();
+        while (right < n) {
+            while (left < right) {
+                char temp = array[left];
+                array[left++] = array[right];
+                array[right--] = temp;
+            }
+            start += 2 * k;
+            left = start + 1;
+            right = start + k;
+        }
+        return array.toString();
+    }
+
+    public boolean repeatedSubstringPattern(String s) {
+        StringBuilder sb = new StringBuilder();
+        int count = 0;
+        int index= 0;
+        if (s.length() < 2) {
+            return false;
+        }
+        sb.append(s.charAt(0));
+        for (int i = 0; i < s.length(); i++) {
+            if (index < sb.toString().length() && sb.charAt(index) == s.charAt(i)) {
+                index++;
+            } else {
+                sb.append(s.charAt(i));
+                index = 0;
+            }
+        }
+        if (s.length() != sb.toString().length() && s.length() % sb.toString().length() == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
-        String text1 = "weallloveyou", text2 = "execution";
-        int[] nums = {1, 2, 3, 4};
+        String text1 = "abcdefg", text2 = "execution";
+        int[] nums = {1, 2, 3};
+        int[] nums2 = {2, 4, 6};
+        char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
 
         String Str = new String("This");
         String s = "abcabcbb";
@@ -923,7 +1014,7 @@ dict内字符串在s中只有一次，infexOf
         int target = 7;
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.productExceptSelf(nums));
+        System.out.println(exculpate.reverseStr(text1, 2));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
