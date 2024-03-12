@@ -977,36 +977,66 @@ dict内字符串在s中只有一次，infexOf
         return array.toString();
     }
 
+    //459. 重复的子字符串
     public boolean repeatedSubstringPattern(String s) {
         StringBuilder sb = new StringBuilder();
+        int index = 0;
         int count = 0;
-        int index= 0;
-        if (s.length() < 2) {
+        int n = s.length();
+        if (n < 2) {
             return false;
         }
         sb.append(s.charAt(0));
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 0; i < n; i++) {
             if (index < sb.toString().length() && sb.charAt(index) == s.charAt(i)) {
                 index++;
+                if (index == sb.toString().length()) {
+                    count++;
+                    index = 0;
+                }
             } else {
                 sb.append(s.charAt(i));
                 index = 0;
             }
         }
-        if (s.length() != sb.toString().length() && s.length() % sb.toString().length() == 0) {
-            return true;
-        } else {
-            return false;
+
+        int m = sb.toString().length();
+
+        return m != n && n / m == count && n % m == 0;
+    }
+
+    //150. 逆波兰表达式求值
+    public int evalRPN(String[] tokens) {
+        Stack<String> tempStack = new Stack<>();
+        for (int i = 0; i < tokens.length; i++) {
+            if (isCal(tokens[i])) {
+                Integer first = Integer.valueOf(tempStack.pop());
+                Integer second = Integer.valueOf(tempStack.pop());
+                switch (tokens[i]) {
+                    case "+" -> tempStack.push(String.valueOf(first + second));
+                    case "-" -> tempStack.push(String.valueOf(first - second));
+                    case "*" -> tempStack.push(String.valueOf(first * second));
+                    default -> tempStack.push(String.valueOf(first / second));
+                }
+            } else {
+                tempStack.push(tokens[i]);
+            }
         }
+        return Integer.valueOf(tempStack.pop());
+
+    }
+
+    private boolean isCal(String str) {
+        return str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/");
     }
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
-        String text1 = "abcdefg", text2 = "execution";
+        String text1 = "ababba", text2 = "execution";
         int[] nums = {1, 2, 3};
         int[] nums2 = {2, 4, 6};
         char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
-
+        String[] tokens = {"4","13","5","/","+"};
         String Str = new String("This");
         String s = "abcabcbb";
         String t = "car";
@@ -1014,7 +1044,7 @@ dict内字符串在s中只有一次，infexOf
         int target = 7;
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.reverseStr(text1, 2));
+        System.out.println(exculpate.evalRPN(tokens));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
