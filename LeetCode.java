@@ -1,3 +1,4 @@
+import javax.swing.tree.TreeNode;
 import java.util.*;
 
 
@@ -19,6 +20,27 @@ public class LeetCode {
             this.next = next;
         }
     }
+
+    // 树定义
+    public class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
 
     /**
      * 345. 反转字符串中的元音字母
@@ -310,25 +332,6 @@ public class LeetCode {
     }
 
 
-    // 树定义
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 
     //110. 平衡二叉树
     public boolean isBalanced(TreeNode root) {
@@ -1030,6 +1033,35 @@ dict内字符串在s中只有一次，infexOf
         return str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/");
     }
 
+    //872. 叶子相似的树
+    public boolean leafSimilar() {
+        TreeNode root1 = new TreeNode(1);
+        root1.left = new TreeNode(2);
+        root1.right = new TreeNode(200);
+        TreeNode root2 = new TreeNode(1);
+        root2.left = new TreeNode(2);
+        root2.right = new TreeNode(200);
+        List<Integer> res1 = new ArrayList<>();
+        List<Integer> res2 = new ArrayList<>();
+        leafList(root1, res1);
+        leafList(root2, res2);
+
+        if (res1.size() != res2.size()) return false;
+        for (int i = 0; i < res1.size(); i++) {
+            System.out.println(res1.get(i));
+            System.out.println(res2.get(i));
+            if (!res1.get(i).equals(res2.get(i))) return false;
+        }
+        return true;
+    }
+    private void leafList(TreeNode root, List<Integer> res) {
+        if (root == null) return;
+        //System.out.println(root.val);
+        if (root.left == null && root.right == null) res.add(root.val);
+        leafList(root.left, res);
+        leafList(root.right, res);
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "ababba", text2 = "execution";
@@ -1043,8 +1075,11 @@ dict内字符串在s中只有一次，infexOf
         int n = 10;
         int target = 7;
 
+
+
+
         System.out.print("返回值 :");
-        System.out.println(exculpate.evalRPN(tokens));
+        System.out.println(exculpate.leafSimilar());
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
