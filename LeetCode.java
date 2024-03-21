@@ -1062,10 +1062,32 @@ dict内字符串在s中只有一次，infexOf
         leafList(root.right, res);
     }
 
+    //860. 柠檬水找零
+    public boolean lemonadeChange(int[] bills) {
+        int[] cash = new int[2];
+        for (int i = 0; i < bills.length; i++) {
+            if (bills[i] == 5){
+                cash[0]++;
+            } else if (bills[i] == 10 && cash[0] > 0) {
+                cash[0]--;
+                cash[1]++;
+            } else if (bills[i] == 10 && cash[0] <= 0) {
+                return false;
+            } else if (bills[i] == 20 && cash[1] > 0 && cash[0] > 0) {
+                cash[0]--;
+                cash[1]--;
+            } else if (bills[i] == 20 && cash[1] <= 0 && cash[0] > 2) {
+                cash[0] -= 3;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "ababba", text2 = "execution";
-        int[] nums = {1, 2, 3};
+        int[] nums = {5,5,5,10,20};
         int[] nums2 = {2, 4, 6};
         char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
         String[] tokens = {"4","13","5","/","+"};
@@ -1079,7 +1101,7 @@ dict内字符串在s中只有一次，infexOf
 
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.leafSimilar());
+        System.out.println(exculpate.lemonadeChange(nums));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
