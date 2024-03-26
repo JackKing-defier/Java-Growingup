@@ -1084,6 +1084,28 @@ dict内字符串在s中只有一次，infexOf
         }
         return true;
     }
+
+    //打家劫舍2
+    public int newRob2(int[] nums) {
+        if (nums.length < 2) return nums[0];
+        int result1 = robRange(nums, 0, nums.length - 2);
+        int result2 = robRange(nums, 1, nums.length - 1);
+        return Math.max(result1, result2);
+    }
+
+    private int robRange(int[] nums, int start, int end) {
+        int[] dp = new int[end + 1];
+        dp[start] = nums[start];
+        if (end - start < 1) {
+            return nums[start];
+        }
+        dp[start + 1] = Math.max(nums[start], nums[start + 1]);
+        for (int i = start + 2; i <= end; i++) {
+            dp[i] = Math.max(dp[i - 2] + nums[i], dp[i - 1]);
+        }
+        return dp[end];
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "ababba", text2 = "execution";
