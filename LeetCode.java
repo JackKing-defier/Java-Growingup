@@ -1,5 +1,7 @@
 import javax.swing.tree.TreeNode;
 import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 public class LeetCode {
@@ -1106,6 +1108,46 @@ dict内字符串在s中只有一次，infexOf
         return dp[end];
     }
 
+    /*
+Write a java multi threading program where:
+1. Thread 1 prints "O" for 10 times;
+2. Thread 2 prints "K" for 10 times;
+3. Thread 3 prints "X" for 10 times;
+
+Then the expected output from the program is:
+
+OKX
+OKX
+OKX
+OKX
+OKX
+OKX
+OKX
+OKX
+OKX
+OKX
+*/
+
+//    private void TestOKX (Thread t1) {
+//        Lock
+//        try {
+//            System.out.println("O");
+//
+//        } finally {
+//
+//        }
+//
+//    }
+//    private final Lock lock = new ReentrantLock();
+//    public void OKXPrint(String str) {
+//        lock.lock();
+//        try {
+//            System.out.print(str);
+//        } finally {
+//            lock.unlock();
+//        }
+//    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "ababba", text2 = "execution";
@@ -1120,10 +1162,33 @@ dict内字符串在s中只有一次，infexOf
         int target = 7;
 
 
+        Thread testO = new Thread() {
+            public void run() {
+                //System.out.print("O");
+            }
+        };
+        Thread testK = new Thread() {
+            public void run() {
+                //System.out.print("K");
+            }
+        };
+        Thread testX = new Thread() {
+            public void run() {
+                //System.out.println("X");
+            }
+        };
+
+        for (int i = 0; i < 10; i++) {
+            testO.start();
+            testK.start();
+            testX.start();
+
+        }
+
 
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.lemonadeChange(nums));
+        //System.out.println(exculpate.lemonadeChange(nums));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
