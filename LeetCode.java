@@ -1,4 +1,8 @@
 import javax.swing.tree.TreeNode;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -332,7 +336,6 @@ public class LeetCode {
         }
         return n - dp[n][m];
     }
-
 
 
     //110. 平衡二叉树
@@ -1056,6 +1059,7 @@ dict内字符串在s中只有一次，infexOf
         }
         return true;
     }
+
     private void leafList(TreeNode root, List<Integer> res) {
         if (root == null) return;
         //System.out.println(root.val);
@@ -1068,7 +1072,7 @@ dict内字符串在s中只有一次，infexOf
     public boolean lemonadeChange(int[] bills) {
         int[] cash = new int[2];
         for (int i = 0; i < bills.length; i++) {
-            if (bills[i] == 5){
+            if (bills[i] == 5) {
                 cash[0]++;
             } else if (bills[i] == 10 && cash[0] > 0) {
                 cash[0]--;
@@ -1147,48 +1151,209 @@ OKX
 //            lock.unlock();
 //        }
 //    }
+    /*
+    public static void main(String[] args) throws InterruptedException {
+    Object o = new Object();
+    Object k = new Object();
+    Object x = new Object();
+
+    int count = 10;
+    Thread thread1 = new Thread(() -> {
+        try {
+            int i = 0;
+            while (i < count) {
+                synchronized (o) {
+                    if (i > 0) {
+                        o.wait();
+                    }
+                    System.out.println("o");
+                    i++;
+                    synchronized (k) {
+                        k.notify();
+                    }
+                }
+            }
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    });
+    Thread thread2 = new Thread(() -> {
+        try {
+            int i = 0;
+            while (i < count) {
+                synchronized (k) {
+                    k.wait();
+                    System.out.println("k");
+                    i++;
+                    synchronized (x) {
+                        x.notify();
+                    }
+                }
+            }
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    });
+    Thread thread3 = new Thread(() -> {
+        try {
+            int i = 0;
+            while (i < count) {
+                synchronized (x) {
+                    x.wait();
+                    System.out.println("x");
+                    System.out.println();
+                    i++;
+                    synchronized (o) {
+                        o.notify();
+                    }
+                }
+            }
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    });
+    thread1.start();
+    thread2.start();
+    thread3.start();
+    thread3.join();
+}
+    * */
+//    private int n;
+//    public Create getInstance() {
+//        synchronized () {
+//
+//        }
+//    }
+
+    private Map<Integer, ArrayList<Integer>> nodeMap = new HashMap<Integer, ArrayList<Integer>>();
+
+    public int mixAncester(TreeNode root, int a, int b) {
+        int ans = root.val;
+        ArrayList<Integer> aAncester = nodeMap.get(a);
+        ArrayList<Integer> bAncester = nodeMap.get(b);
+        //6,2,4
+        //6,2,0
+        //find first common
+        int point1 = 0;
+        int len = Math.min(aAncester.size(), bAncester.size());
+        for (int i = 0; i < len; i++) {
+            if (aAncester.get(i) != bAncester.get(i)) {
+                break;
+            } else {
+                ans = aAncester.get(i);
+            }
+        }
+        return ans;
+    }
+//    public void travelTree (TreeNode root, int a, int b) {
+//        if (root == null) return;
+//        if (root.val == a || root.val == b) {
+//
+//        }
+//        ArrayList<Integer> tempList = nodeMap.getOrDefault(root.val, new ArrayList<Integer>());
+//        tempList.add(root.val);
+//        nodeMap.put(root.val, tempList);
+//        travelTree(root.left);
+//        travelTree(root.right);
+//    }
+
+    /*
+    1.
+费用统计,得出每个员工出差总费用及次数：
+cat employee.txt
+name expense count
+zhangsan 8000 1
+zhangsan 5000 1
+lisi 1000 1
+lisi 2000 1
+wangwu 1500 1
+zhaoliu 6000 1
+zhaoliu 2000 1
+zhaoliu 3000 1
+
+2.
+给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和以及对应的子数组。
+子数组 是数组中的一个连续部分。
+示例 1：
+输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
+输出：6
+解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。
+示例 2：
+输入：nums = [1]
+输出：1
+示例 3：
+输入：nums = [5,4,-1,7,8]
+输出：23
+提示：
+1 <= nums.length <= 105
+-104 <= nums[i] <= 104
+    * */
+
+    //res < 0, nums[i]
+    private int maxArray(int[] nums) {
+        int len = nums.length;
+        int sum = 0;
+        int ans = 0;
+        for (int i = 0; i < len; i++) {
+            if (sum < 0) {
+                sum = 0;
+            }
+            sum += nums[i];
+            ans = Math.max(ans, sum);
+        }
+        return ans;
+    }
+
+    //
+    private Map<String, List<Integer>> calExpense(List<String> file) {
+        Map<String, List<Integer>> res = new HashMap<String, List<Integer>>();
+        for (int i = 0; i < file.size(); i++) {
+            String line = file.get(i);
+            String[] lineArray = line.split(" ");
+            List<Integer> countList = res.getOrDefault(lineArray[0], new ArrayList<Integer>());
+            Integer expense = countList.get(0);
+            expense += Integer.valueOf(lineArray[1]);
+            countList.set(0, expense);
+            Integer times = countList.get(1);
+            times += Integer.valueOf(lineArray[2]);
+            countList.set(1, times);
+            res.put(lineArray[0], countList);
+        }
+        return res;
+    }
+
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "ababba", text2 = "execution";
-        int[] nums = {5,5,5,10,20};
+        int[] nums = {5, 4, -1, 7, 8};
         int[] nums2 = {2, 4, 6};
         char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
-        String[] tokens = {"4","13","5","/","+"};
+        String[] tokens = {"4", "13", "5", "/", "+"};
         String Str = new String("This");
         String s = "abcabcbb";
         String t = "car";
         int n = 10;
         int target = 7;
+        String filePath = " "; // 替换为您的文件路径
 
-
-        Thread testO = new Thread() {
-            public void run() {
-                //System.out.print("O");
+        List<String> lineList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // 对每一行内容进行处理
+                lineList.add(line);
+                // 您可以在这里添加其他处理逻辑
             }
-        };
-        Thread testK = new Thread() {
-            public void run() {
-                //System.out.print("K");
-            }
-        };
-        Thread testX = new Thread() {
-            public void run() {
-                //System.out.println("X");
-            }
-        };
-
-        for (int i = 0; i < 10; i++) {
-            testO.start();
-            testK.start();
-            testX.start();
-
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-
-
         System.out.print("返回值 :");
-        //System.out.println(exculpate.lemonadeChange(nums));
+        System.out.println(exculpate.calExpense(lineList));
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
@@ -1197,3 +1362,5 @@ OKX
 
     }
 }
+
+

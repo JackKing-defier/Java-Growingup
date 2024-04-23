@@ -1,0 +1,8 @@
+zhangsan 8000 1
+zhangsan 5000 1
+lisi 1000 1
+lisi 2000 1
+wangwu 1500 1
+zhaoliu 6000 1
+zhaoliu 2000 1
+zhaoliu 3000 1
