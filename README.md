@@ -1,2 +1,2 @@
 # Java-Growingup
-Java learning focus Leetcode
+Java learning focus on Leetcode
