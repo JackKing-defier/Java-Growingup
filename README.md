@@ -1,2 +1,2 @@
 # Java-Growingup
-Java 学习历程
+Java learning focus on Leetcode
