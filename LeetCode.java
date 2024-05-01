@@ -1324,6 +1324,31 @@ zhaoliu 3000 1
         }
         return res;
     }
+    /*
+    Write a script that prints the first 10 numbers of the Fibonacci sequence.
+The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, usually starting with 0 and 1.
+Expected Output: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, …
+For example: 0+1=1; 1+1=2; 1+2=3, …
+Requirements:
+Use any programming language of your choice.
+Disable Github Copilot if you have it.
+You can initialize with [0,1].
+    * */
+    //
+    private int[] testArc(int num) {
+        int[] dp = new int[num + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+
+        for (int i = 2; i < num; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+
+        for (int j = 0; j < num; j++) {
+            System.out.println(dp[j]);
+        }
+        return dp;
+    }
 
 
     public static void main(String[] args) {
@@ -1340,20 +1365,21 @@ zhaoliu 3000 1
         int target = 7;
         String filePath = " "; // 替换为您的文件路径
 
-        List<String> lineList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                // 对每一行内容进行处理
-                lineList.add(line);
-                // 您可以在这里添加其他处理逻辑
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        List<String> lineList = new ArrayList<>();
+//        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+//            String line;
+//            while ((line = br.readLine()) != null) {
+//                // 对每一行内容进行处理
+//                lineList.add(line);
+//                // 您可以在这里添加其他处理逻辑
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.calExpense(lineList));
+        exculpate.testArc(10);
+        System.out.println();
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
