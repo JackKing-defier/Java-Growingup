@@ -1350,6 +1350,29 @@ You can initialize with [0,1].
         return dp;
     }
 
+    private Set<Integer> hashSet = new HashSet<Integer>();
+
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        int len = rooms.size();
+
+        dfs(rooms, 0);
+        hashSet.add(0);
+        return hashSet.size() == rooms.size();
+    }
+
+    private void dfs(List<List<Integer>> rooms, Integer node) {
+        if (hashSet.contains(node)) {
+            return;
+        }
+
+        for (int i = 0; i < rooms.get(node).size(); i++) {
+            Integer nextNode = rooms.get(node).get(i);
+            hashSet.add(nextNode);
+            dfs(rooms, nextNode);
+            // hashSet.remove(nextNode);
+        }
+
+    }
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
@@ -1364,8 +1387,24 @@ You can initialize with [0,1].
         int n = 10;
         int target = 7;
         String filePath = " "; // 替换为您的文件路径
+        List<List<Integer>> rooms = new ArrayList<List<Integer>>();
+        List<Integer> room0 = new ArrayList<>();
+        room0.add(1);
+        List<Integer> room1 = new ArrayList<>();
+        room1.add(2);
+        List<Integer> room2 = new ArrayList<>();
+        room2.add(3);
+        List<Integer> room3 = new ArrayList<>();
+        rooms.add(room0);
+        rooms.add(room1);
+        rooms.add(room2);
+        rooms.add(room3);
+
+        System.out.print("返回值 :");
+        System.out.println(exculpate.canVisitAllRooms(rooms));
 
 //        List<String> lineList = new ArrayList<>();
+        //文件读取
 //        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 //            String line;
 //            while ((line = br.readLine()) != null) {
@@ -1377,9 +1416,7 @@ You can initialize with [0,1].
 //            e.printStackTrace();
 //        }
 
-        System.out.print("返回值 :");
-        exculpate.testArc(10);
-        System.out.println();
+
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
