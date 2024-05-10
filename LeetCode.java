@@ -1324,6 +1324,7 @@ zhaoliu 3000 1
         }
         return res;
     }
+
     /*
     Write a script that prints the first 10 numbers of the Fibonacci sequence.
 The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, usually starting with 0 and 1.
@@ -1374,9 +1375,72 @@ You can initialize with [0,1].
 
     }
 
+    /*
+    第一题：一个excel表格 表格头信息 A,B,C.....Z,AA,AB,AC 等，请编写一个程序，输入 一个表头信息，输出列数。
+例如:
+  输入 AB，输出28这个数字。
+  calCol(String a)
+
+第二题：
+给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。 k 是一个正整数，它的值小于或等于链表的长度。 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+示例：
+给你这个链表：1->2->3->4->5 当 k = 2 时，应当返回: 2->1->4->3->5 当 k = 3 时，应当返回: 3->2->1->4->5
+说明：
+* 你的算法只能使用常数的额外空间。
+* 你不能只是单纯的改变节点内部的值，而是需要实际进行节点交换。
+    17:14
+    * */
+    public int calCol(String str) {
+        char[] charArray = str.toCharArray();
+        int len = charArray.length;
+        int ans = 0;
+        for (int i = 0; i < len; i++) {
+            int num = charArray[i] - 'A' + 1;
+            ans = ans * 26 + num;
+        }
+        return ans;
+    }
+
+    public void retLink(ListNode root, int k) {
+        ListNode slow = root;
+        ListNode fast = slow;
+        while (fast.next != null) {
+            //cut k
+            int count = k;
+            while (count > 0 && fast.next != null) {
+                fast = fast.next;
+                count--;
+            }
+            ListNode cutHead = slow;
+            ListNode newHead = fast.next;
+            fast.next = null;
+
+            ListNode newEnd = revertListNode(cutHead);
+            newEnd.next = newHead;
+            slow = newHead;
+            fast = slow;
+        }
+
+    }
+
+    public ListNode revertListNode(ListNode root) {
+        if (root == null) {
+            return null;
+        }
+        ListNode pre = null;
+        ListNode cur = root;
+        while (cur.next != null) {
+            ListNode tmp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = tmp;
+        }
+        return root;
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
-        String text1 = "ababba", text2 = "execution";
+        String text1 = "AB", text2 = "execution";
         int[] nums = {5, 4, -1, 7, 8};
         int[] nums2 = {2, 4, 6};
         char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
@@ -1401,7 +1465,7 @@ You can initialize with [0,1].
         rooms.add(room3);
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.canVisitAllRooms(rooms));
+        System.out.println(exculpate.calCol(text1));
 
 //        List<String> lineList = new ArrayList<>();
         //文件读取
@@ -1415,7 +1479,6 @@ You can initialize with [0,1].
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-
 
 
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
