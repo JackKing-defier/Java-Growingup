@@ -1438,6 +1438,58 @@ You can initialize with [0,1].
         return root;
     }
 
+    /*
+There are n files that need to be installed, named as file 0,1,...,(n-1). For each file there could be dependencies on other files, e.g., (1,0) means that to install file 1, you need to install file 0.
+Design a program to output a viable installation order.
+
+input1：int
+input2: List<List<Integer>>
+output: List<Integer>
+
+example1：2,[[1,0]] >> [0,1]
+example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
+*/
+    private Set<Integer> ans;
+    public List<Integer> installFile(int n, List<List<Integer>> fileRely) {
+
+        Map<Integer, List<Integer>> rely = new HashMap<Integer, List<Integer>>();
+        for (int j = 0; j < fileRely.size(); j++) {
+            List<Integer> tempList = rely.getOrDefault(fileRely.get(j).get(1), new ArrayList<Integer>());
+            tempList.add(fileRely.get(j).get(0));
+            rely.put(fileRely.get(j).get(1), tempList);
+        }
+
+        for (int i = 0; i < n; i++) {
+            ans = new HashSet<>();
+            bfsFile(i, rely);
+            if (ans.size() == n) {
+                return ans.stream().toList();
+            }
+        }
+        return null;
+    }
+
+    private void bfsFile(Integer index, Map<Integer, List<Integer>> relyMap) {
+        Queue<Integer> queue = new LinkedList<Integer>();
+
+        queue.add(index);
+        while (!queue.isEmpty()) {
+            int file = queue.poll();
+            ans.add(file);
+            if (!ans.contains(file)) {
+                continue;
+            }
+            for (int next : relyMap.get(file)) {
+                if (!ans.contains(next)) {
+                    queue.add(next);
+                    ans.add(next);
+                }
+            }
+        }
+    }
+
+
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "AB", text2 = "execution";
