@@ -1450,6 +1450,7 @@ example1：2,[[1,0]] >> [0,1]
 example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
 */
     private Set<Integer> ans;
+
     public List<Integer> installFile(int n, List<List<Integer>> fileRely) {
 
         Map<Integer, List<Integer>> rely = new HashMap<Integer, List<Integer>>();
@@ -1488,13 +1489,66 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         }
     }
 
+    //有序重复数组求第一个不小于target的序号
+    //{1,2,3,3,4,5,6}
+    //4
+    //4
+    //3, 2
+    public int tt(int[] nums, int target) {
+        int right = nums.length;
+        int left = 0;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] < target) {
+                left = mid + 1;
+            } else if (nums[mid] >= target) {
+                right = mid;
+            }
+        }
+        return left;
+    }
+    //text
+    // word
+    //26
+
+    //973. 最接近原点的 K 个点
+    public int[][] kClosest(int[][] points, int k) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>((p1, p2) -> p2[0] * p2[0] + p2[1] * p2[1] - p1[0] * p1[0] - p1[1] * p1[1]);
+
+//        for (int[] point : points) {
+//            if (pq.size() < k) { // 如果堆中不足 K 个，直接将当前 point 加入即可
+//                pq.offer(point);
+//            } else if (pq.comparator().compare(point, pq.peek()) > 0) { // 否则，判断当前点的距离是否小于堆中的最大距离，若是，则将堆中最大距离poll出，将当前点加入堆中。
+//                pq.poll();
+//                pq.offer(point);
+//            }
+//        }
+
+        for (int[] point : points) {
+            pq.offer(point);
+            if (pq.size() > k) { // 否则，判断当前点的距离是否小于堆中的最大距离，若是，则将堆中最大距离poll出，将当前点加入堆中。
+                pq.poll();
+            }
+        }
+
+        int[][] ans = new int[pq.size()][2];
+
+        for (int j = 0; j < ans.length; j++) {
+            ans[j][0] = pq.peek()[0];
+            ans[j][1] = pq.peek()[1];
+            pq.remove();
+        }
+        return ans;
+    }
 
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         String text1 = "AB", text2 = "execution";
-        int[] nums = {5, 4, -1, 7, 8};
+        int[] nums = {1, 2, 3, 3, 3, 4, 5, 6};
         int[] nums2 = {2, 4, 6};
+        int[][] points = {{3, 3}, {5, -1}, {-2, 4}};
         char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
         String[] tokens = {"4", "13", "5", "/", "+"};
         String Str = new String("This");
@@ -1517,7 +1571,7 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         rooms.add(room3);
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.calCol(text1));
+        System.out.println(exculpate.kClosest(points, 2));
 
 //        List<String> lineList = new ArrayList<>();
         //文件读取
