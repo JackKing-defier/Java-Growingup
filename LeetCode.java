@@ -1542,6 +1542,50 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         return ans;
     }
 
+    static class Trie {
+        //构建TrieNode对象，记录所有26个字符是否存在以及是否为结尾，理念有点类似布隆过滤器
+
+        class TrieNode {
+            boolean end;
+            TrieNode[] tns = new TrieNode[26];
+        }
+
+        TrieNode root;
+
+        public Trie() {
+            root = new TrieNode();
+        }
+
+        public void insert(String word) {
+            TrieNode p = root;
+            for (int i = 0; i < word.length(); i++) {
+                int u = word.charAt(i) - 'a';
+                if (p.tns[u] == null) p.tns[u] = new TrieNode();
+                p = p.tns[u];
+            }
+            p.end = true;
+        }
+
+        public boolean search(String word) {
+            TrieNode p = root;
+            for (int i = 0; i < word.length(); i++) {
+                int u = word.charAt(i) - 'a';
+                if (p.tns[u] == null) return false;
+                p = p.tns[u];
+            }
+            return p.end;
+        }
+
+        public boolean startsWith(String prefix) {
+            TrieNode p = root;
+            for (int i = 0; i < prefix.length(); i++) {
+                int u = prefix.charAt(i) - 'a';
+                if (p.tns[u] == null) return false;
+                p = p.tns[u];
+            }
+            return true;
+        }
+    }
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
@@ -1557,6 +1601,16 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         int n = 10;
         int target = 7;
         String filePath = " "; // 替换为您的文件路径
+
+        Trie trie = new Trie();
+        trie.insert("apple");
+        trie.insert("haed");
+        ;
+        System.out.print("返回值 :");
+        System.out.println(trie.search("apple"));
+        System.out.println(trie.search("ae"));
+
+        //二维List
         List<List<Integer>> rooms = new ArrayList<List<Integer>>();
         List<Integer> room0 = new ArrayList<>();
         room0.add(1);
@@ -1569,9 +1623,6 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         rooms.add(room1);
         rooms.add(room2);
         rooms.add(room3);
-
-        System.out.print("返回值 :");
-        System.out.println(exculpate.kClosest(points, 2));
 
 //        List<String> lineList = new ArrayList<>();
         //文件读取
@@ -1586,12 +1637,10 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
 //            e.printStackTrace();
 //        }
 
-
 //        int[] arr = {10, 7, 8, 9, 1, 5, 1, 2, 16, 6};
 //        quickSort(arr, 0, arr.length - 1);
 //        System.out.println("Sorted array:");
 //        printArray(arr);
-
     }
 }
 
