@@ -1587,10 +1587,72 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         }
     }
 
+    //1438. 绝对差不超过限制的最长连续子数组
+    public int longestSubarray(int[] nums, int limit) {
+        int len = nums.length;
+        int dis = 0;
+        int[] dp = new int[len];// 以i为结尾的nums子数组最长结果
+        for (int i = 0; i < len; i++) {
+            int max = Integer.MIN_VALUE;
+            int min = Integer.MAX_VALUE;
+            for (int j = 0; j <= i; j++) {
+                max = Math.max(max, nums[j]);
+                min = Math.min(min, nums[j]);
+                if (max - min <= limit) {
+                    dis = Math.max(dis, j + 1);
+                }
+            }
+            dp[i] = dis;
+        }
+        return dp[len - 1];
+    }
+
+    //10004. Design a Rate Limiting System
+    static class RateLimiter {
+        private Integer requests;
+
+        private Integer time;
+
+        private Stack<Integer> invokeStack;
+        private Stack<Integer> tempStack;
+
+        public RateLimiter(int n, int t) {
+            this.requests = n;
+            this.time = t;
+            this.invokeStack = new Stack<Integer>();
+            this.tempStack = new Stack<Integer>();
+        }
+
+        public boolean shouldAllow(int timestamp) {
+            if (invokeStack.size() < requests - 1) {
+                invokeStack.push(timestamp);
+                return true;
+            }
+
+            int count = 0;
+            while (!invokeStack.isEmpty() && timestamp - invokeStack.peek() <= time) {
+                tempStack.push(invokeStack.pop());
+                count++;
+            }
+
+            while (!tempStack.isEmpty()) {
+                invokeStack.push(tempStack.pop());
+            }
+
+            if (count > requests - 1) {
+                return false;
+            } else {
+                invokeStack.push(timestamp);
+                return true;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
+
         String text1 = "AB", text2 = "execution";
-        int[] nums = {1, 2, 3, 3, 3, 4, 5, 6};
+        int[] nums = {38,42,48,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50};
         int[] nums2 = {2, 4, 6};
         int[][] points = {{3, 3}, {5, -1}, {-2, 4}};
         char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
@@ -1599,16 +1661,20 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         String s = "abcabcbb";
         String t = "car";
         int n = 10;
-        int target = 7;
+        int target = 4;
         String filePath = " "; // 替换为您的文件路径
 
         Trie trie = new Trie();
         trie.insert("apple");
         trie.insert("haed");
         ;
+        RateLimiter rateLimiter = new RateLimiter(16, 12);
+        for (int i = 0; i < nums.length; i++) {
+            System.out.println(rateLimiter.shouldAllow(nums[i]));
+        }
+
         System.out.print("返回值 :");
-        System.out.println(trie.search("apple"));
-        System.out.println(trie.search("ae"));
+        //System.out.println(exculpate.longestSubarray(nums, target));
 
         //二维List
         List<List<Integer>> rooms = new ArrayList<List<Integer>>();
