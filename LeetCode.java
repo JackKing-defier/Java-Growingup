@@ -1648,6 +1648,43 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         }
     }
 
+    //Goldman Sachs  Highest Average Score
+    public int highestAverageScore(String[][] scores) {
+        if (scores == null || scores.length == 0) {
+            return -1;
+        }
+        int highestAve = 0;
+        Map<String, List<Integer>> map = new HashMap<>();
+        for (int i = 0; i < scores.length; i++) {
+            if (map.containsKey(scores[i][0])) {
+                map.get(scores[i][0]).add(Integer.parseInt(scores[i][1]));
+            } else {
+                List<Integer> list = new ArrayList<>();
+                list.add(Integer.parseInt(scores[i][1]));
+                map.put(scores[i][0], list);
+            }
+
+        }
+        for (String key : map.keySet()) {
+            int ave = calAverageScore(map.get(key));
+            if (ave > highestAve) {
+                highestAve = ave;
+            }
+        }
+//        for(Map.Entry<String, List<Integer>> entry: map.entrySet()) {
+//
+//        }
+        return highestAve;
+    }
+
+    public int calAverageScore(List<Integer> list) {
+        int sum = 0;
+        for (Integer score : list) {
+            sum += score;
+        }
+        return sum / list.size();
+    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
 
@@ -1655,6 +1692,7 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         int[] nums = {38,42,48,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50};
         int[] nums2 = {2, 4, 6};
         int[][] points = {{3, 3}, {5, -1}, {-2, 4}};
+        String[][] scores = {{"Bob","87"}, {"Mike", "35"},{"Bob", "52"}, {"Jason","35"}, {"Mike", "55"}, {"Jessica", "99"}};
         char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
         String[] tokens = {"4", "13", "5", "/", "+"};
         String Str = new String("This");
@@ -1668,13 +1706,13 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         trie.insert("apple");
         trie.insert("haed");
         ;
-        RateLimiter rateLimiter = new RateLimiter(16, 12);
-        for (int i = 0; i < nums.length; i++) {
-            System.out.println(rateLimiter.shouldAllow(nums[i]));
-        }
+//        RateLimiter rateLimiter = new RateLimiter(16, 12);
+//        for (int i = 0; i < nums.length; i++) {
+//            System.out.println(rateLimiter.shouldAllow(nums[i]));
+//        }
 
         System.out.print("返回值 :");
-        //System.out.println(exculpate.longestSubarray(nums, target));
+        System.out.println(exculpate.highestAverageScore(scores));
 
         //二维List
         List<List<Integer>> rooms = new ArrayList<List<Integer>>();
