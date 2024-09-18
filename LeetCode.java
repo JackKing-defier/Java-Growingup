@@ -921,6 +921,7 @@ dict内字符串在s中只有一次，infexOf
     }
 
     //443. 压缩字符串——FUCK！
+    //"a","b","b"  = a, b, 2
     public int compress(char[] chars) {
         int n = chars.length;
         if (n < 2) {
@@ -928,23 +929,23 @@ dict内字符串在s中只有一次，infexOf
         }
         int checkIndex = 0;
         int write = 0;
-        for (int i = 1; i < n; i++) {
-            int count = i - checkIndex;
-            if (i == n - 1 || chars[i] != chars[i - 1]) {
-                chars[write] = chars[i - 1];
-                if (count > 1) {
-                    char[] countArray = String.valueOf(count).toCharArray();
-                    for (int j = 0; j < countArray.length; j++) {
-                        chars[write + j] = countArray[j];
-                    }
-                    write += countArray.length;
+        for (int i = 0; i < n; i++) {
+            chars[write++] = chars[i];
+            int count = 1;
+            while (i < n - 1 && chars[i] == chars[i + 1]) {
+                i++;
+                count++;
+            }
+
+            if (count != 1) {
+                String temp = String.valueOf(count);
+                for (int j = 0; j < temp.length(); j++) {
+                    chars[write++] = temp.charAt(j);
                 }
-                checkIndex = i;
-                //chars[write] = chars[i]; //
             }
         }
         System.out.println(chars);
-        return ++write;
+        return write;
     }
 
     //2215. 找出两数组的不同
@@ -1689,11 +1690,11 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         LeetCode exculpate = new LeetCode();
 
         String text1 = "AB", text2 = "execution";
-        int[] nums = {38,42,48,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50};
+        int[] nums = {38, 42, 48, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50};
         int[] nums2 = {2, 4, 6};
         int[][] points = {{3, 3}, {5, -1}, {-2, 4}};
-        String[][] scores = {{"Bob","87"}, {"Mike", "35"},{"Bob", "52"}, {"Jason","35"}, {"Mike", "55"}, {"Jessica", "99"}};
-        char[] chars = {'a', 'a', 'b', 'b', 'a', 'a'};
+        String[][] scores = {{"Bob", "87"}, {"Mike", "35"}, {"Bob", "52"}, {"Jason", "35"}, {"Mike", "55"}, {"Jessica", "99"}};
+        char[] chars = {'a', 'a', 'a', 'a', 'a', 'b'};
         String[] tokens = {"4", "13", "5", "/", "+"};
         String Str = new String("This");
         String s = "abcabcbb";
@@ -1712,7 +1713,7 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
 //        }
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.highestAverageScore(scores));
+        System.out.println(exculpate.compress(chars));
 
         //二维List
         List<List<Integer>> rooms = new ArrayList<List<Integer>>();
