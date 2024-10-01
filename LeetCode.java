@@ -1,11 +1,4 @@
-import javax.swing.tree.TreeNode;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 
 public class LeetCode {
@@ -887,7 +880,7 @@ dict内字符串在s中只有一次，infexOf
     }
 
     public int charNumber(String t) {
-        Set tagSet = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
+        Set<Character> tagSet = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
         int res = 0;
         for (int i = 0; i < t.length(); i++) {
             if (tagSet.contains(t.charAt(i))) {
