@@ -1677,12 +1677,274 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         }
         return sum / list.size();
     }
+    //空格考虑
+    //1.插入英文
+    //2.删除英文
+    //3.前缀查找，返回拥有这个前缀的所有句子列表
+
+    class TrieNode {
+        TrieNode trieNode;
+        boolean state;
+        int count;
+        int[] countArray;
+        TrieNode[] nodeArray;
+        List<String> res = new ArrayList<>();
+        //abc,abd,cde
+
+        TrieNode() {
+
+        }
+        public boolean insert(String sentence) {
+            if (sentence == null || sentence.length() == 0){
+                return false;
+            }
+            for (int i = 0; i < sentence.length(); i++) {
+                //todo 空格，字符需要额外处理，index需要调整。-128
+                int index = sentence.charAt(i) - 'a';
+
+                //TrieNode trieNode = new TrieNode();
+                //nodeArray[index] = trieNode;
+                countArray[index] += 1;
+
+            }
+            return true;
+        }
+        public boolean delete(String sentence) {
+            if (sentence == null || sentence.length() == 0){
+                return false;
+            }
+            for (int i = 0; i < sentence.length(); i++) {
+                //todo 空格，字符需要额外处理，index需要调整。-128
+                int index = sentence.charAt(i) - 'a';
+                //nodeArray[index] = null;
+                if (countArray[index] > 0) {
+                    countArray[index] -= 1;
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public List<String> prefixSearch(String prefix) {
+            //List<String> res = new ArrayList<>();
+            if (prefix == null || prefix.length() == 0){
+                return res;
+            }
+            //ab
+            StringBuilder sb = new StringBuilder();
+            TrieNode lastNode = new TrieNode();
+            for (int i = 0; i < prefix.length(); i++) {
+                //todo 空格，字符需要额外处理，index需要调整。-128
+                int index = prefix.charAt(i) - 'a';
+                lastNode = trieNode.trieNode;
+                if (countArray[index] > 0) {
+                    sb.append(prefix.charAt(i));
+                }
+            }
+
+            // abe, acd,
+            int[] lastArray = lastNode.countArray;
+
+            for (int j = 0; j < lastArray.length; j++) {
+                if (lastArray[j] == 0) {
+                    continue;
+                } else {
+
+                    if (lastNode.trieNode != null) {
+                        sb.append('a' + j);
+                    }
+
+                }
+
+
+            }
+            return res;
+        }
+        public void addChar(TrieNode lastNode, StringBuilder sb, int[] lastArray){
+            if (lastNode.trieNode == null) {
+                res.add(sb.toString());
+                return ;
+            }
+            for (int j = 0; j < lastArray.length; j++) {
+                if (lastArray[j] == 0) {
+                    continue;
+                } else {
+                    sb.append('a' + j);
+                    //lastNode =
+                    addChar(lastNode.trieNode, sb, lastNode.trieNode.countArray);
+                    //sb.remove();
+                }
+
+
+            }
+        }
+
+
+    }
+    /**
+     Design a simplified version of Weibo where users can post weibos, follow/unfollow another user, and is able to see the 10 most recent weibos in the user's news feed.
+     Implement the Weibo class:
+     Functions
+
+     follow
+
+     Unfollow
+
+     postWeibo: Composes a new weibo with ID weiboId by the user userId. Each call to this function will
+     be made with a unique weiboId.
+
+     getLatestWeibo: Retrieves the 10 most recent weibo IDs in the user's news feed. Each item in the latest weibo must be posted by users who the user followed or by the user themself. Weibo must be ordered from most recent to least recent.
+
+     */
+//    Map<String, Weibo> database = new HashMap<String, Weibo>();
+//    class Content {
+//
+//    }
+//    class Weibo{
+//        private String userId;
+//        private Set<String> followSet;
+//        private Stack<String> weiboStack;
+//
+//        public Set<String> getFollow() {
+//            return this.followSet;
+//        }
+//
+//        public Stack<String> getWeiboStack() {
+//            return this.weiboStack;
+//        }
+//
+//        public Weibo(String userId) {
+//            this.userId = userId;
+//            this.followSet = new HashSet<>();
+//            this.weiboStack = new Stack<>();
+//        }
+//
+//        public boolean follow(String userId) {
+//            this.followSet.add(userId);
+//            return true;
+//        }
+//
+//        public boolean unfollow(String userId) {
+//            if (followSet.size() == 0) return false;
+//            if (followSet.contains(userId)) {
+//                followSet.remove(userId);
+//                return true;
+//            } else {
+//                return false;
+//            }
+//
+//        }
+//
+//        public boolean postWeibo(String weiboId) {
+//            this.weiboStack.push(weiboId);
+//            return true;
+//        }
+//
+//        public List<String> getLatestWeibo(String userId) {
+//            Weibo weiboObj = database.get(userId);
+//            Set<String> followSet = weiboObj.getFollow();
+//            //Stack<String> weiboStack = weiboObj.getWeiboStack();
+//
+//            Map<String, Stack<String>> followWeibos = new HashMap<String, Stack<String>>();
+//            for (String str : followSet) {
+//                followWeibos.put(str, database.get(str).getWeiboStack());
+//            }
+//            PriorityQueue<String> pq = new PriorityQueue<>((a, b) ->{
+//                return a.compareTo(b);
+//            });
+//
+//
+//            for (Map.Entry(String, Stack<String>) entry: followWeibos.keySet()) {
+//                if (followWeibos.get(entry.getKey()).isEmpty()) {
+//                    continue;
+//                }
+//
+//            }
+//
+//
+//        }
+//    }
+
+    public String merge(String s1, String s2) {
+        // write code here
+        String[] s1Array = s1.split(",");
+        int m = s1Array.length;
+        String[] s2Array = s2.split(",");
+        int n = s2Array.length;
+        int[] arr1 = Arrays.stream(s1.split(",")).mapToInt(Integer::parseInt).toArray();
+        int[] arr2 = Arrays.stream(s2.split(",")).mapToInt(Integer::parseInt).toArray();
+        int[] ans = new int[m + n];
+
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        StringBuilder sb = new StringBuilder();
+
+        while (i < m && j < n) {
+            if (arr1[i] <= arr2[j]) {
+                sb.append(arr1[i++]);
+            } else {
+                sb.append(arr2[j++]);
+            }
+            sb.append(",");
+        }
+        while (i < m) {
+            sb.append(arr1[i++]);
+            sb.append(",");
+
+        }
+        while (j < n) {
+            sb.append(arr2[j++]);
+            sb.append(",");
+        }
+        return sb.toString().substring(0, sb.length() - 1);
+    }
+
+
+    /*
+    给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的
+子序列
+。 示例 1：
+输入：nums = [10,9,2,5,3,7,101,18]
+输出：4
+解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。
+示例 2：
+输入：nums = [0,1,0,3,2,3]
+输出：4
+示例 3：
+输入：nums = [7,7,7,7,7,7,7]
+输出：1
+
+提示：
+●1 <= nums.length <= 2500
+●-104 <= nums[i] <= 104
+
+
+
+dp[i] = Math.max(dp[i - 1])
+    * */
+    public int sheinTest(int[] arr) {
+        int len = arr.length;
+        int[] dp = new int[len];
+        dp[0] = 1;
+        int ans = 0;
+        for (int i = 1; i < len; i++) {
+            if (arr[i] > arr[i - 1]) {
+                dp[i] = dp[i - 1] + 1;
+            } else {
+                dp[i] = dp[i - 1];
+            }
+            ans = Math.max(dp[i], ans);
+        }
+        return ans;
+    }
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
 
-        String text1 = "AB", text2 = "execution";
-        int[] nums = {38, 42, 48, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50};
+        String text1 = "1,3,3,4,5,8,9", text2 = "2,3,6,7,10";
+        int[] nums = {7,7,7,7};
         int[] nums2 = {2, 4, 6};
         int[][] points = {{3, 3}, {5, -1}, {-2, 4}};
         String[][] scores = {{"Bob", "87"}, {"Mike", "35"}, {"Bob", "52"}, {"Jason", "35"}, {"Mike", "55"}, {"Jessica", "99"}};
@@ -1705,7 +1967,7 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
 //        }
 
         System.out.print("返回值 :");
-        System.out.println(exculpate.compress(chars));
+        System.out.println(exculpate.sheinTest(nums));
 
         //二维List
         List<List<Integer>> rooms = new ArrayList<List<Integer>>();
