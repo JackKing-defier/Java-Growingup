@@ -1897,7 +1897,7 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
             sb.append(arr2[j++]);
             sb.append(",");
         }
-        return sb.toString().substring(0, sb.length() - 1);
+        return sb.substring(0, sb.length() - 1);
     }
 
 
@@ -1940,8 +1940,71 @@ dp[i] = Math.max(dp[i - 1])
         return ans;
     }
 
+    // Test
+    /*
+    * 给定两个用链表表示的整数，每个节点包含一个数位。
+这些数位是反向存放的，也就是个位排在链表首部。
+编写函数对这两个整数求和，并用链表形式返回结果。
+
+示例：
+输入：(7 -> 1 -> 6) + (5 -> 9 -> 2)，即617 + 295
+输出：2 -> 1 -> 9，即912
+进阶：思考一下，假设这些数位是正向存放的，又该如何解决呢?
+示例：
+输入：(6 -> 1 -> 7) + (2 -> 9 -> 5)，即617 + 295
+输出：9 -> 1 -> 2，即912
+
+    *
+    * */
+    static class Node {
+        int val;
+        Node next;
+        Node(int val) {
+            this.val = val;
+        }
+    }
+    //988 + 12
+    public Node getListNodeSum(Node a, Node b) {
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
+        Node dummy = new Node(0);
+        Node head = dummy;
+        int up = 0;
+        while (a != null && b != null) {
+            int sum = a.val + b.val;
+            int temp = up + sum % 10;
+            head.next = new Node(temp);
+            head = head.next;
+            up = sum / 10;
+            a = a.next;
+            b = b.next;
+        }
+        if (up == 1) {
+            //
+        }
+        if (a != null) {
+            head.next = a;
+        }
+        if (b != null) {
+            head.next = b;
+        }
+        return dummy.next;
+    }
+
+
+
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
+
+
+        System.out.print("返回值 :");
+        //Node res = exculpate.getListNodeSum(head1.next, head2.next);
+
 
         String text1 = "1,3,3,4,5,8,9", text2 = "2,3,6,7,10";
         int[] nums = {7,7,7,7};
