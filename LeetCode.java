@@ -1694,8 +1694,9 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
         TrieNode() {
 
         }
+
         public boolean insert(String sentence) {
-            if (sentence == null || sentence.length() == 0){
+            if (sentence == null || sentence.length() == 0) {
                 return false;
             }
             for (int i = 0; i < sentence.length(); i++) {
@@ -1709,8 +1710,9 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
             }
             return true;
         }
+
         public boolean delete(String sentence) {
-            if (sentence == null || sentence.length() == 0){
+            if (sentence == null || sentence.length() == 0) {
                 return false;
             }
             for (int i = 0; i < sentence.length(); i++) {
@@ -1725,9 +1727,10 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
             }
             return true;
         }
+
         public List<String> prefixSearch(String prefix) {
             //List<String> res = new ArrayList<>();
-            if (prefix == null || prefix.length() == 0){
+            if (prefix == null || prefix.length() == 0) {
                 return res;
             }
             //ab
@@ -1760,10 +1763,11 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
             }
             return res;
         }
-        public void addChar(TrieNode lastNode, StringBuilder sb, int[] lastArray){
+
+        public void addChar(TrieNode lastNode, StringBuilder sb, int[] lastArray) {
             if (lastNode.trieNode == null) {
                 res.add(sb.toString());
-                return ;
+                return;
             }
             for (int j = 0; j < lastArray.length; j++) {
                 if (lastArray[j] == 0) {
@@ -1781,20 +1785,20 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
 
 
     }
+
     /**
-     Design a simplified version of Weibo where users can post weibos, follow/unfollow another user, and is able to see the 10 most recent weibos in the user's news feed.
-     Implement the Weibo class:
-     Functions
-
-     follow
-
-     Unfollow
-
-     postWeibo: Composes a new weibo with ID weiboId by the user userId. Each call to this function will
-     be made with a unique weiboId.
-
-     getLatestWeibo: Retrieves the 10 most recent weibo IDs in the user's news feed. Each item in the latest weibo must be posted by users who the user followed or by the user themself. Weibo must be ordered from most recent to least recent.
-
+     * Design a simplified version of Weibo where users can post weibos, follow/unfollow another user, and is able to see the 10 most recent weibos in the user's news feed.
+     * Implement the Weibo class:
+     * Functions
+     * <p>
+     * follow
+     * <p>
+     * Unfollow
+     * <p>
+     * postWeibo: Composes a new weibo with ID weiboId by the user userId. Each call to this function will
+     * be made with a unique weiboId.
+     * <p>
+     * getLatestWeibo: Retrieves the 10 most recent weibo IDs in the user's news feed. Each item in the latest weibo must be posted by users who the user followed or by the user themself. Weibo must be ordered from most recent to least recent.
      */
 //    Map<String, Weibo> database = new HashMap<String, Weibo>();
 //    class Content {
@@ -1864,7 +1868,6 @@ example2: 4，[[1,0],[2,0],[3,1],[3,2]] >> [0, 1, 2, 3] or [0, 2, 1, 3]
 //
 //        }
 //    }
-
     public String merge(String s1, String s2) {
         // write code here
         String[] s1Array = s1.split(",");
@@ -1959,10 +1962,12 @@ dp[i] = Math.max(dp[i - 1])
     static class Node {
         int val;
         Node next;
+
         Node(int val) {
             this.val = val;
         }
     }
+
     //988 + 12
     public Node getListNodeSum(Node a, Node b) {
         if (a == null) {
@@ -1996,55 +2001,87 @@ dp[i] = Math.max(dp[i - 1])
     }
 
 
+    /*
+    * 给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。
+
+    请注意 ，必须在不复制数组的情况下原地对数组进行操作。
+    示例 1:
+
+    输入: nums = [0,1,0,3,12]
+    输出: [1,3,12,0,0]
+    示例 2:
+    示例 2:
+
+    输入: nums = [0]
+    输出: [0]
+    *
+    * */
+
+    public void moveZeroes(int[] nums) {
+        int left = 0;
+        int right = left;
+        for (; right < nums.length; right++) {
+            if (nums[right] != 0) {
+                int temp = nums[left];
+                nums[left] = nums[right];
+                nums[right] = temp;
+                left++;
+            }
+        }
+    }
 
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
-
-
         System.out.print("返回值 :");
+
         //Node res = exculpate.getListNodeSum(head1.next, head2.next);
 
 
         String text1 = "1,3,3,4,5,8,9", text2 = "2,3,6,7,10";
-        int[] nums = {7,7,7,7};
-        int[] nums2 = {2, 4, 6};
-        int[][] points = {{3, 3}, {5, -1}, {-2, 4}};
-        String[][] scores = {{"Bob", "87"}, {"Mike", "35"}, {"Bob", "52"}, {"Jason", "35"}, {"Mike", "55"}, {"Jessica", "99"}};
-        char[] chars = {'a', 'a', 'a', 'a', 'a', 'b'};
-        String[] tokens = {"4", "13", "5", "/", "+"};
-        String Str = new String("This");
-        String s = "abcabcbb";
-        String t = "car";
-        int n = 10;
-        int target = 4;
-        String filePath = " "; // 替换为您的文件路径
-
-        Trie trie = new Trie();
-        trie.insert("apple");
-        trie.insert("haed");
-        ;
-//        RateLimiter rateLimiter = new RateLimiter(16, 12);
-//        for (int i = 0; i < nums.length; i++) {
-//            System.out.println(rateLimiter.shouldAllow(nums[i]));
-//        }
-
-        System.out.print("返回值 :");
-        System.out.println(exculpate.sheinTest(nums));
-
-        //二维List
-        List<List<Integer>> rooms = new ArrayList<List<Integer>>();
-        List<Integer> room0 = new ArrayList<>();
-        room0.add(1);
-        List<Integer> room1 = new ArrayList<>();
-        room1.add(2);
-        List<Integer> room2 = new ArrayList<>();
-        room2.add(3);
-        List<Integer> room3 = new ArrayList<>();
-        rooms.add(room0);
-        rooms.add(room1);
-        rooms.add(room2);
-        rooms.add(room3);
+        int[] nums = {7, 7, 7, 7};
+        int[] nums2 = {0, 2, 0, 4, 6};
+        exculpate.moveZeroes(nums2);
+        for (int num : nums2) {
+            System.out.println(num);
+        }
+        System.out.println();
+//        int[][] points = {{3, 3}, {5, -1}, {-2, 4}};
+//        String[][] scores = {{"Bob", "87"}, {"Mike", "35"}, {"Bob", "52"}, {"Jason", "35"}, {"Mike", "55"}, {"Jessica", "99"}};
+//        char[] chars = {'a', 'a', 'a', 'a', 'a', 'b'};
+//        String[] tokens = {"4", "13", "5", "/", "+"};
+//        String Str = new String("This");
+//        String s = "abcabcbb";
+//        String t = "car";
+//        int n = 10;
+//        int target = 4;
+//        String filePath = " "; // 替换为您的文件路径
+//
+//        Trie trie = new Trie();
+//        trie.insert("apple");
+//        trie.insert("haed");
+//        ;
+////        RateLimiter rateLimiter = new RateLimiter(16, 12);
+////        for (int i = 0; i < nums.length; i++) {
+////            System.out.println(rateLimiter.shouldAllow(nums[i]));
+////        }
+//
+//        System.out.print("返回值 :");
+//        System.out.println(exculpate.sheinTest(nums));
+//
+//        //二维List
+//        List<List<Integer>> rooms = new ArrayList<List<Integer>>();
+//        List<Integer> room0 = new ArrayList<>();
+//        room0.add(1);
+//        List<Integer> room1 = new ArrayList<>();
+//        room1.add(2);
+//        List<Integer> room2 = new ArrayList<>();
+//        room2.add(3);
+//        List<Integer> room3 = new ArrayList<>();
+//        rooms.add(room0);
+//        rooms.add(room1);
+//        rooms.add(room2);
+//        rooms.add(room3);
 
 //        List<String> lineList = new ArrayList<>();
         //文件读取
