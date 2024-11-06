@@ -2029,6 +2029,46 @@ dp[i] = Math.max(dp[i - 1])
             }
         }
     }
+    /*
+    a = "222334556677777332121233", b = "1118893445622200456662234"
+    * */
+    public String bigNum (String a, String b) {
+        //
+        int len1 = a.length();
+        int len2 = b.length();
+        int i = len1 - 1;
+        int j = len2 - 1;
+        int upgrade = 0;
+        List<Integer> ans = new ArrayList<>();
+        while (i >= 0 && j >= 0) {
+            int sum = Integer.valueOf(a.charAt(i)) + Integer.valueOf(b.charAt(j)) + upgrade;
+            upgrade = sum / 10;
+            int element = sum % 10;
+            ans.add(element);
+            i--;
+            j--;
+        }
+        //todo upgrade
+        if (i >= 0) {
+
+            while (j >= 0) {
+                ans.add(Integer.valueOf(b.charAt(j)));
+                j--;
+            }
+        }
+
+        if (j >= 0) {
+            while (i >= 0) {
+                ans.add(Integer.valueOf(a.charAt(i)));
+                i--;
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int k = ans.size() - 1; k >=0; k--) {
+            sb.append(ans.get(k));
+        }
+        return sb.toString();
+    }
 
 
     public static void main(String[] args) {
