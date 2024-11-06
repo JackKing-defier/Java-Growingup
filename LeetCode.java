@@ -2049,15 +2049,14 @@ dp[i] = Math.max(dp[i - 1])
             j--;
         }
         //todo upgrade
-        if (i >= 0) {
-
+        if (j >= 0) {
             while (j >= 0) {
-                ans.add(Integer.valueOf(b.charAt(j)));
+                ans.add((int) b.charAt(j));
                 j--;
             }
         }
 
-        if (j >= 0) {
+        if (i >= 0) {
             while (i >= 0) {
                 ans.add(Integer.valueOf(a.charAt(i)));
                 i--;
