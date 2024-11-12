@@ -2033,7 +2033,6 @@ dp[i] = Math.max(dp[i - 1])
     a = "222334556677777332121233", b = "1118893445622200456662234"
     * */
     public String bigNum (String a, String b) {
-        //
         int len1 = a.length();
         int len2 = b.length();
         int i = len1 - 1;
@@ -2048,7 +2047,7 @@ dp[i] = Math.max(dp[i - 1])
             i--;
             j--;
         }
-        //todo upgrade
+        // upgrade fix
         if (j >= 0) {
             while (j >= 0) {
                 ans.add((int) b.charAt(j));
@@ -2069,6 +2068,30 @@ dp[i] = Math.max(dp[i - 1])
         return sb.toString();
     }
 
+    //从左到右，从上到下都是递增的，有效矩阵，m * n，确认target是否存在。
+
+    //1 3 4
+    //2 5 7
+    //9 10 11
+    public boolean search(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int i = 0;
+        for (; i < m; i++) {
+            if (matrix[i][n - 1] == target) {
+                return true;
+            }
+            else if (matrix[i][n - 1] > target) {
+                break;
+            }
+        }
+        for (int j = n - 1; j >= 0; j--) {
+            if (matrix[i][j] == target) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
