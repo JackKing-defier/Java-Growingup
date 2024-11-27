@@ -2093,9 +2093,52 @@ dp[i] = Math.max(dp[i - 1])
         return false;
     }
 
+    /*
+    * 给定一个二叉树的 根节点 root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+
+输入: [1,2,3,null,5,null,4]
+输出: [1,3,4]
+*           1
+*       2       3
+*   null  5   null  4
+*
+*
+*
+*
+* */
+    //
+    public void rightView(TreeNode root) {
+        if (root == null) {
+            return ;
+        }
+        TreeNode right = root.right;
+        rightView(right);
+        if (right != null) {
+            System.out.println(root.val);
+        }
+        TreeNode left = root.left;
+        rightView(left);
+
+
+
+    }
+//    public class TreeNode {
+//        int val;
+//        TreeNode left;
+//        TreeNode right;
+//        TreeNode() {}
+//        TreeNode(int val) { this.val = val; }
+//        TreeNode(int val, TreeNode left, TreeNode right) {
+//            this.val = val;
+//            this.left = left;
+//            this.right = right;
+//        }
+//    }
+
     public static void main(String[] args) {
         LeetCode exculpate = new LeetCode();
         System.out.print("返回值 :");
+
 
         //Node res = exculpate.getListNodeSum(head1.next, head2.next);
 
